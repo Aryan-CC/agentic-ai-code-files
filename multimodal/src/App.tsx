@@ -145,13 +145,8 @@ function App() {
         return;
       }
 
-      // Create speech recognition instance
-      const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-      const recognition = new SpeechRecognition();
-      
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = 'en-US';
+      //TODO 1: Initialize the SpeechRecognition object here wih continuous listening and interim results enabled.
+
 
       // Add user message placeholder for transcription
       const transcriptionMessage: Message = {
@@ -163,20 +158,10 @@ function App() {
       setMessages(prev => [...prev, transcriptionMessage]);
 
       recognition.onresult = (event) => {
-        const transcript = Array.from(event.results)
-          .map(result => result[0])
-          .map(result => result.transcript)
-          .join('');
 
-        // Update the last message with current transcript
-        setMessages(prev => 
-          prev.map((msg, idx) => 
-            idx === prev.length - 1 && msg.isVoice 
-              ? { ...msg, content: transcript, isProcessing: false } 
-              : msg
-          )
-        );
-        // Set the input value so user can edit if needed
+        //TODO 2: Extract and update the transcribed text from speech recognition results.
+        
+       
         setInput(transcript);
       };
 
@@ -216,20 +201,8 @@ function App() {
     }
   };
 
-  // Text-to-speech functionality
-  const speakText = (text: string) => {
-    if ('speechSynthesis' in window) {
-      // Stop any ongoing speech
-      window.speechSynthesis.cancel();
-      
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
-      utterance.onerror = () => setIsSpeaking(false);
-      
-      window.speechSynthesis.speak(utterance);
-    }
-  };
+  // TODO 3: Implement text-to-speech functionality using SpeechSynthesisUtterance.
+  
 
   const stopSpeaking = () => {
     if ('speechSynthesis' in window) {
